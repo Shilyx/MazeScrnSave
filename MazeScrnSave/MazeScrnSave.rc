@@ -1,0 +1,172 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// 中文(中华人民共和国) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+#pragma code_page(936)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "080404b0"
+        BEGIN
+            VALUE "CompanyName", "Shilyx Studio"
+            VALUE "FileDescription", "MazeScrnSave"
+            VALUE "FileVersion", "1, 0, 0, 1"
+            VALUE "InternalName", "MazeScrnSave"
+            VALUE "LegalCopyright", "Copyright Shilyx Studio 2014"
+            VALUE "OriginalFilename", "MazeScrnSave"
+            VALUE "ProductName", "MazeScrnSave"
+            VALUE "ProductVersion", "1, 0, 0, 1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x804, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_MAINFRAME           ICON                    "res\\MainFrame.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DIALOG DIALOGEX 0, 0, 212, 151
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "迷宫屏保程序参数配置"
+FONT 9, "宋体", 0, 0, 0x0
+BEGIN
+    PUSHBUTTON      "恢复默认(&D)",IDC_DEFAULT,7,130,92,14
+    PUSHBUTTON      "关闭(&C)",IDCANCEL,113,130,92,14
+    CTEXT           "点击设置迷宫背景色",IDC_CL_BACKGROUND,7,7,92,8,SS_NOTIFY | WS_TABSTOP
+    CTEXT           "点击设置墙色",IDC_CL_WALL,113,7,92,8,SS_NOTIFY | WS_TABSTOP
+    CTEXT           "点击设置不可行路径颜色",IDC_CL_BADPATH,7,27,92,8,SS_NOTIFY | WS_TABSTOP
+    CTEXT           "点击设置正确路径颜色",IDC_CL_VISITED,113,27,92,8,SS_NOTIFY | WS_TABSTOP
+    CTEXT           "点击设置起点格颜色",IDC_CL_BEGIN,7,47,92,8,SS_NOTIFY | WS_TABSTOP
+    CTEXT           "点击设置终点格颜色",IDC_CL_END,113,47,92,8,SS_NOTIFY | WS_TABSTOP
+    LTEXT           "格子宽度：",IDC_STATIC,7,70,41,8
+    EDITTEXT        IDC_CELLWIDTH,51,68,35,14,ES_AUTOHSCROLL | ES_READONLY
+    CONTROL         "",IDC_SPINCELLWIDTH,"msctls_updown32",UDS_ARROWKEYS,88,68,11,14
+    LTEXT           "格子高度：",IDC_STATIC,113,70,41,8
+    EDITTEXT        IDC_CELLHEIGHT,157,68,35,14,ES_AUTOHSCROLL | ES_READONLY
+    CONTROL         "",IDC_SPINCELLHEIGHT,"msctls_updown32",UDS_ARROWKEYS,194,67,11,14
+    LTEXT           "生成速度：",IDC_STATIC,7,92,41,8
+    EDITTEXT        IDC_GENERATESPEED,51,90,35,14,ES_AUTOHSCROLL | ES_READONLY
+    CONTROL         "",IDC_SPINGENERATESPEED,"msctls_updown32",UDS_ARROWKEYS,88,90,11,14
+    LTEXT           "求解速度：",IDC_STATIC,113,92,41,8
+    EDITTEXT        IDC_RESOLVESPEED,157,90,35,14,ES_AUTOHSCROLL | ES_READONLY
+    CONTROL         "",IDC_SPINRESOLVESPEED,"msctls_updown32",UDS_ARROWKEYS,194,90,11,14
+    CONTROL         "生成前自动擦除(&R)",IDC_REDRAWBEFOREGENERATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,111,92,10
+    CONTROL         "求解后闪烁路径(&F)",IDC_FLASHPATH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,113,111,92,10
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 205
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 144
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// RT_MANIFEST
+//
+
+1                       RT_MANIFEST             "res\\MazeScrnSave.manifest"
+#endif    // 中文(中华人民共和国) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
