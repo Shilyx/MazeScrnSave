@@ -44,6 +44,7 @@ static struct
     int      nResolveSpeed;         // 求解速度，-9-9
     BOOL     bReDrawBeforeGenerate; // 生成前擦除上次图案
     BOOL     bFlashPath;            // 求解后闪烁路径
+    BOOL     bAllowNonSolution;     // 允许生成无解的迷宫
 
 } g_config;
 
@@ -77,8 +78,9 @@ void LoadConfig()
     g_config.uCellHeight           = RegGetInt(HKEY_CURRENT_USER, g_lpRegPath, TEXT("uCellHeight"          ), 10);
     g_config.nGenerateSpeed        = RegGetInt(HKEY_CURRENT_USER, g_lpRegPath, TEXT("uGenerateSpeed"       ), 5);
     g_config.nResolveSpeed         = RegGetInt(HKEY_CURRENT_USER, g_lpRegPath, TEXT("uResolveSpeed"        ), 0);
-    g_config.bReDrawBeforeGenerate = RegGetInt(HKEY_CURRENT_USER, g_lpRegPath, TEXT("bReDrawBeforeGenerate"), TRUE);
+    g_config.bReDrawBeforeGenerate = RegGetInt(HKEY_CURRENT_USER, g_lpRegPath, TEXT("bReDrawBeforeGenerate"), FALSE);
     g_config.bFlashPath            = RegGetInt(HKEY_CURRENT_USER, g_lpRegPath, TEXT("bFlashPath"           ), TRUE);
+    g_config.bAllowNonSolution     = RegGetInt(HKEY_CURRENT_USER, g_lpRegPath, TEXT("bAllowNonSolution"    ), FALSE);
 }
 
 void SaveConfig()
@@ -95,6 +97,7 @@ void SaveConfig()
     SHSetValue(HKEY_CURRENT_USER, g_lpRegPath, TEXT("uResolveSpeed"        ), REG_DWORD, &g_config.nResolveSpeed        , sizeof(g_config.nResolveSpeed        ));
     SHSetValue(HKEY_CURRENT_USER, g_lpRegPath, TEXT("bReDrawBeforeGenerate"), REG_DWORD, &g_config.bReDrawBeforeGenerate, sizeof(g_config.bReDrawBeforeGenerate));
     SHSetValue(HKEY_CURRENT_USER, g_lpRegPath, TEXT("bFlashPath"           ), REG_DWORD, &g_config.bFlashPath           , sizeof(g_config.bFlashPath           ));
+    SHSetValue(HKEY_CURRENT_USER, g_lpRegPath, TEXT("bAllowNonSolution"    ), REG_DWORD, &g_config.bAllowNonSolution    , sizeof(g_config.bAllowNonSolution    ));
 }
 
 void ClearConfig()
@@ -139,6 +142,7 @@ DWORD CALLBACK UpdatePictureProc(LPVOID lpParam)
     maze.GetColorManager().SetColor(clPtEnd     , g_config.clPtEnd     );
     maze.UpdateColors();
     maze.SetReDrawBeforeGenerate(g_config.bReDrawBeforeGenerate);
+    maze.SetAllowNonSolution(g_config.bAllowNonSolution);
     maze.SetFlashPath(g_config.bFlashPath);
 
     while (IsWindow(hWindow))
@@ -479,6 +483,7 @@ INT_PTR WINAPI ScreenSaverConfigureDialog(HWND hwndDlg, UINT message, WPARAM wPa
         SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_SPINRESOLVESPEED       ), GWLP_USERDATA, (LONG_PTR)&g_config.nResolveSpeed           );
         SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_REDRAWBEFOREGENERATE   ), GWLP_USERDATA, (LONG_PTR)&g_config.bReDrawBeforeGenerate   );
         SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_FLASHPATH              ), GWLP_USERDATA, (LONG_PTR)&g_config.bFlashPath              );
+        SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_ALLOWNONSOLUTION       ), GWLP_USERDATA, (LONG_PTR)&g_config.bAllowNonSolution       );
 
         SendDlgItemMessage(hwndDlg, IDC_SPINCELLWIDTH, UDM_SETRANGE32, 1, 500);
         SendDlgItemMessage(hwndDlg, IDC_SPINCELLHEIGHT, UDM_SETRANGE32, 1, 500);
@@ -498,6 +503,7 @@ INT_PTR WINAPI ScreenSaverConfigureDialog(HWND hwndDlg, UINT message, WPARAM wPa
 
     case WM_REFRESH:
         CheckDlgButton(hwndDlg, IDC_REDRAWBEFOREGENERATE, g_config.bReDrawBeforeGenerate);
+        CheckDlgButton(hwndDlg, IDC_ALLOWNONSOLUTION, g_config.bAllowNonSolution);
         CheckDlgButton(hwndDlg, IDC_FLASHPATH, g_config.bFlashPath);
         SetDlgItemInt(hwndDlg, IDC_CELLWIDTH, g_config.uCellWidth, FALSE);
         SetDlgItemInt(hwndDlg, IDC_CELLHEIGHT, g_config.uCellHeight, FALSE);
@@ -583,6 +589,7 @@ INT_PTR WINAPI ScreenSaverConfigureDialog(HWND hwndDlg, UINT message, WPARAM wPa
             break;
 
         case IDC_REDRAWBEFOREGENERATE:
+        case IDC_ALLOWNONSOLUTION:
         case IDC_FLASHPATH:
             *GetDlgItemStore(hwndDlg, LOWORD(wParam)) = IsDlgButtonChecked(hwndDlg, LOWORD(wParam));
             SendMessage(hwndDlg, WM_REFRESH, 0, 0);

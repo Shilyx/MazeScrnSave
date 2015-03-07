@@ -21,6 +21,7 @@
 #define IDC_DEFAULT                     1022
 #define IDC_SPINGENERATESPEED           1023
 #define IDC_SPINRESOLVESPEED            1024
+#define IDC_ALLOWNONSOLUTION            1025
 #define IDD_DIALOG                      2003
 
 // Next default values for new objects

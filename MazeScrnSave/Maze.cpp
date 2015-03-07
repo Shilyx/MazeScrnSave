@@ -1,4 +1,9 @@
 #include "Maze.h"
+#include <set>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
 
 CMaze::CMaze(int nWidth, int nHeight, int nCellWidth, int nCellHeight, bool bCopyScreen)
 {
@@ -14,6 +19,7 @@ CMaze::CMaze(int nWidth, int nHeight, int nCellWidth, int nCellHeight, bool bCop
     m_nOffsetY = (m_nHeight - m_nRows * m_nCellHeight) / 2;
 
     m_bReDrawBeforeGenerate = FALSE;
+    m_bAllowNonSolution = FALSE;
     m_bFlashPath = TRUE;
 
 //     m_nOffsetX = 2;
@@ -178,6 +184,54 @@ void CMaze::Next(BOOL bDelay)
         break;
 
     case MS_GENERATED:
+        // 随机打乱一些墙面
+        if (m_bAllowNonSolution && m_nRows * m_nCols >= 10 && m_nCols > 1 && m_nRows > 1)
+        {
+            int nRightWallsCount = (m_nCols - 1) * m_nRows;
+            int nBottomWallsCount = (m_nRows - 1) * m_nCols;
+            int nWallsCount = nRightWallsCount + nBottomWallsCount;
+            int nChangedWallsCount = nWallsCount * 2 / 100;
+            set<int> setChangedWalls;
+            vector<int> vectorChangedWalls;
+
+            if (nChangedWallsCount > 100)
+            {
+                // 调整的墙面不宜过多，否则总是无解
+                nChangedWallsCount = 100;
+            }
+
+            while ((int)setChangedWalls.size() < nChangedWallsCount)
+            {
+                setChangedWalls.insert(BigRand() % nWallsCount);
+            }
+
+            vectorChangedWalls.assign(setChangedWalls.begin(), setChangedWalls.end());
+            random_shuffle(vectorChangedWalls.begin(), vectorChangedWalls.end());
+
+            for (int i = 0; i < nChangedWallsCount; ++i)
+            {
+                int nOffset = vectorChangedWalls.at(i);
+
+                if (nOffset < nRightWallsCount)
+                {
+                    int nRow = nOffset / (m_nCols - 1);
+                    int nCol = nOffset % (m_nCols - 1);
+                    CMazeCell *pCell = GetCell(nCol, nRow);
+
+                    pCell->SetWall(DIR_RIGHT, !pCell->GetWall(DIR_RIGHT));
+                }
+                else
+                {
+                    nOffset -= nRightWallsCount;
+
+                    int nRow = nOffset / m_nCols;
+                    int nCol = nOffset % m_nCols;
+                    CMazeCell *pCell = GetCell(nCol, nRow);
+
+                    pCell->SetWall(DIR_BOTTOM, !pCell->GetWall(DIR_BOTTOM));
+                }
+            }
+        }
         ReDrawAllCells();
         ChangeState(MS_SETTING);
         break;
@@ -419,6 +473,16 @@ int CMaze::GetCounter()
     return m_nCounter++;
 }
 
+int CMaze::BigRand()
+{
+    return
+        (((rand() % 0x100) << 0) |
+        ((rand() % 0x100) << 8) |
+        ((rand() % 0x100) << 16) |
+        ((rand() % 0x100) << 24)) &
+        ((unsigned)-1 >> 1);
+}
+
 COLORREF CMaze::GetReverseColor(COLORREF cl)
 {
     return RGB(~GetRValue(cl), ~GetGValue(cl), ~GetBValue(cl));
@@ -427,6 +491,11 @@ COLORREF CMaze::GetReverseColor(COLORREF cl)
 void CMaze::SetReDrawBeforeGenerate(BOOL bReDrawBeforeGenerate)
 {
     m_bReDrawBeforeGenerate = bReDrawBeforeGenerate;
+}
+
+void CMaze:: SetAllowNonSolution(BOOL bAllowNonSolution)
+{
+    m_bAllowNonSolution = bAllowNonSolution;
 }
 
 void CMaze::SetFlashPath(BOOL bFlashPath)

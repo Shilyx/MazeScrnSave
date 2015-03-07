@@ -50,6 +50,7 @@ public:
     void ReDrawSides();
     static COLORREF GetReverseColor(COLORREF cl);
     void SetReDrawBeforeGenerate(BOOL bReDrawBeforeGenerate);
+    void SetAllowNonSolution(BOOL bAllowNonSolution);
     void SetFlashPath(BOOL bFlashPath);
     void UpdateColors();
 
@@ -59,6 +60,7 @@ private:
     void MakeRandomBeginAndEndCell();
     void ChangeState(MazeState state);
     int GetCounter();
+    static int BigRand();
 
 private:
     int m_nWidth;
@@ -71,6 +73,7 @@ private:
     int m_nOffsetY;
 
     BOOL m_bReDrawBeforeGenerate;
+    BOOL m_bAllowNonSolution;
     BOOL m_bFlashPath;
 
     HDC m_hWorkDc;
